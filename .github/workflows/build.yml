@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.25'
+        check-latest: true
+        cache: true
+
+    - name: Build all platforms
+      run: make build-all
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: opm-launcher-binaries
+        path: bin/
