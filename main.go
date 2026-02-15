@@ -59,12 +59,10 @@ func main() {
 }
 
 func getGamePath() string {
-	// Priority 1: Environment Variable
 	if p := os.Getenv(GameEnvVar); p != "" {
 		return p
 	}
 
-	// Priority 2: Saved Config File
 	configDir, _ := os.UserConfigDir()
 	path := filepath.Join(configDir, AppID, "config.json")
 	if data, err := os.ReadFile(path); err == nil {
@@ -74,7 +72,6 @@ func getGamePath() string {
 		}
 	}
 
-	// Priority 3: Native File Dialog
 	return selectAndSavePath()
 }
 
@@ -96,7 +93,6 @@ func selectAndSavePath() string {
 		return ""
 	}
 
-	// Save to config directory
 	configDir, _ := os.UserConfigDir()
 	dir := filepath.Join(configDir, AppID)
 	os.MkdirAll(dir, 0755)
@@ -135,7 +131,6 @@ func launchGame(uri string) {
 
 	args := []string{"+connect", params}
 
-	// Append com_target_game if needed
 	if scheme == "mohaash" {
 		args = append(args, "+set", "com_target_game", "1")
 	} else if scheme == "mohaabt" {
@@ -144,8 +139,21 @@ func launchGame(uri string) {
 
 	fmt.Printf("Launching: %s %s\n", path, strings.Join(args, " "))
 
-	// Start the process
+	// Prepare the command
 	cmd := exec.Command(path, args...)
+
+	// --- THE FIX ---
+	// Set the working directory to the folder where the .exe sits.
+	// This ensures the game finds the /main folder correctly.
+	gameDir := filepath.Dir(path)
+	cmd.Dir = gameDir
+
+	// Inherit system IO for logging/debugging
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Stdin = os.Stdin
+
+	// Start the process
 	err := cmd.Start()
 	if err != nil {
 		zenity.Error(fmt.Sprintf("Failed to launch game binary:\n%v", err), zenity.Title("Launch Error"))
