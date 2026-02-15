@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOHAA URI Scheme Test</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 40px; background: #f4f4f4; }
+        .container { max-width: 600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        .btn { 
+            display: inline-block; 
+            background: #007bff; 
+            color: white; 
+            padding: 10px 20px; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .btn:hover { background: #0056b3; }
+        .btn-bt { background: #28a745; }
+        .btn-bt:hover { background: #218838; }
+        .btn-sh { background: #dc3545; }
+        .btn-sh:hover { background: #c82333; }
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>MOHAA Launcher Test</h1>
+    <p>Click the links below to test your URI Handler. Ensure you have run the app and selected <strong>Option 1</strong> first.</p>
+    
+    <hr>
+
+    <h3>Main Game (Allied Assault)</h3>
+    <p>Target: <code>127.0.0.1:12203</code></p>
+    <a href="mohaa://127.0.0.1:12203" class="btn">Launch MOHAA</a>
+
+    <h3>Breakthrough (BT)</h3>
+    <p>Target: <code>1.2.3.4:12203</code></p>
+    <a href="mohaabt://1.2.3.4:12203" class="btn btn-bt">Launch Breakthrough</a>
+
+    <h3>Spearhead (SH)</h3>
+    <p>Target: <code>99.88.77.66:12204</code></p>
+    <a href="mohaash://99.88.77.66:12204" class="btn btn-sh">Launch Spearhead</a>
+
+    <hr>
+    <p><small>Note: If nothing happens, check that your <code>OPM_PATH</code> is set correctly in the app.</small></p>
+</div>
+
+</body>
+</html>
