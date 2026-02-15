@@ -1,23 +1,25 @@
 # MOHAA Cross-Platform URI Handler
 
-A lightweight utility to register and handle custom URI schemes (`mohaa://`, `mohaabt://`, `mohaash://`) for Medal of Honor: Allied Assault.
+A lightweight utility to register and handle custom URI schemes (`mohaa://`, `mohaabt://`, `mohaash://`) for Medal of Honor: Allied Assault and its expansions.
 
 ## Features
-- **Cross-Platform**: Supports Windows (Registry) and Linux (XDG Desktop).
-- **Single Binary**: No complex installation. Run the file to install/uninstall.
-- **Param Handling**: Automatically passes IP/Port to the game using the `+connect` command.
+- **Cross-Platform**: Supports Windows, Linux, and macOS.
+- **Auto-Config**: Automatically detects expansions (`mohaabt`, `mohaash`) and appends the correct `com_target_game` parameter.
+- **Easy Setup**: Run the binary to install URI schemes and select your game executable via a native file dialog.
+- **Flexible Path**: Saves your game path in a local config file, or uses the `OPM_PATH` environment variable as a fallback.
 
 ## Setup
-1. Set an environment variable `OPM_PATH` pointing to your game executable (e.g., `C:\Games\MOHAA\mohaa.exe`).
-2. Run the binary and select **Option 1** to register the URI schemes.
-3. Click any `mohaa://<server-ip>` link in your browser to launch the game.
+1. Download the latest binary for your OS from the [Releases](https://github.com/elgansayer/opm-launcher/releases) page.
+2. Run the binary.
+3. Select **Option 3** to set your game path (if not using `OPM_PATH`).
+4. Select **Option 1** to register the URI schemes.
+5. Click any `mohaa://<server-ip>` link in your browser to launch the game.
 
 ## Building
 Requires [Go](https://go.dev/).
 
 ```bash
-# Windows
-GOOS=windows GOARCH=amd64 go build -o bin/mohaa-handler.exe main.go
-
-# Linux
-GOOS=linux GOARCH=amd64 go build -o bin/mohaa-handler main.go
+# Build for all platforms
+make build-all
+```
+Artifacts will be located in the `bin/` directory.
