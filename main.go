@@ -125,17 +125,27 @@ func launchGame(uri string) {
 		return
 	}
 
-	// Extract everything after ://
+	// Extract scheme and params
 	parts := strings.SplitN(uri, "://", 2)
 	if len(parts) < 2 {
 		return
 	}
+	scheme := strings.ToLower(parts[0])
 	params := strings.TrimRight(parts[1], "/")
 
-	fmt.Printf("Launching: %s +connect %s\n", path, params)
+	args := []string{"+connect", params}
+
+	// Append com_target_game if needed
+	if scheme == "mohaash" {
+		args = append(args, "+set", "com_target_game", "1")
+	} else if scheme == "mohaabt" {
+		args = append(args, "+set", "com_target_game", "2")
+	}
+
+	fmt.Printf("Launching: %s %s\n", path, strings.Join(args, " "))
 
 	// Start the process
-	cmd := exec.Command(path, "+connect", params)
+	cmd := exec.Command(path, args...)
 	err := cmd.Start()
 	if err != nil {
 		zenity.Error(fmt.Sprintf("Failed to launch game binary:\n%v", err), zenity.Title("Launch Error"))
